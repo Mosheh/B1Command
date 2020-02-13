@@ -11,6 +11,8 @@ namespace B1CmdClient
 {
     public class ClientChat
     {
+        public static event Events.OnSendMessageHandler OnSendMessage;
+
         public static async Task Init()
         {
             var user = new CommandMessage();
@@ -21,6 +23,7 @@ namespace B1CmdClient
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new ChatB1.ChatB1Client(channel);
 
+            Console.WriteLine("Entre com seu nome");
             using (var chat = client.join())
             {
                 _ = Task.Run(async () =>
@@ -35,16 +38,22 @@ namespace B1CmdClient
                 await chat.RequestStream.WriteAsync(new CommandMessage { UserName = user.UserName, UserId = user.UserId });
 
                 string line;
-
-                while ((line = Console.ReadLine())!=null)
+                
+                while ((line = Console.ReadLine()) != null)
                 {
-                    await chat.RequestStream.WriteAsync(new CommandMessage { UserName = user.UserName, UserId = user.UserId });
+                    SendMessage(chat, user);
+                    
                 }
 
                 await chat.RequestStream.CompleteAsync();
 
-                channel.ShutdownAsync();
+                await channel.ShutdownAsync();
             }
+        }
+
+        private async static void SendMessage(Grpc.Core.AsyncDuplexStreamingCall<CommandMessage, CommandMessage> chat, CommandMessage user)
+        {
+            await chat.RequestStream.WriteAsync(new CommandMessage { UserName = user.UserName, UserId = user.UserId });
         }
     }
 }
