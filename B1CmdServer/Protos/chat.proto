@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "B1CmdServer";
+
+package Chat;
+
+service ChatB1 {  
+  rpc join (stream CommandMessage) returns (stream CommandMessage){}
+}
+
+message CommandMessage {
+	int32 UserId = 1;
+	string UserName = 2;
+	string Command =3;
+	int32 CommandId = 4;
+	string Email = 5;  
+	bool System = 6;
+}
+
+
