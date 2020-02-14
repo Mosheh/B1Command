@@ -23,7 +23,7 @@ namespace B1CmdClient
             var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var client = new ChatB1.ChatB1Client(channel);
 
-            Console.WriteLine("Entre com seu nome");
+            Console.WriteLine("Login SAP");
             using (var chat = client.join())
             {
                 _ = Task.Run(async () =>
@@ -41,7 +41,7 @@ namespace B1CmdClient
                 
                 while ((line = Console.ReadLine()) != null)
                 {
-                    SendMessage(chat, user);
+                    SendMessage(chat, new CommandMessage{ UserName = user.UserName, CommandId=(int)Domain.AllCommands.ShowItemData, Command = line});
                     
                 }
 
@@ -53,7 +53,7 @@ namespace B1CmdClient
 
         private async static void SendMessage(Grpc.Core.AsyncDuplexStreamingCall<CommandMessage, CommandMessage> chat, CommandMessage user)
         {
-            await chat.RequestStream.WriteAsync(new CommandMessage { UserName = user.UserName, UserId = user.UserId });
+            await chat.RequestStream.WriteAsync(user);
         }
     }
 }

@@ -17,6 +17,7 @@ namespace B1CmdServer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddSingleton<ChatRoom>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -30,7 +31,7 @@ namespace B1CmdServer
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
-            {
+            {                
                 endpoints.MapGrpcService<ChatService>();
 
                 endpoints.MapGet("/", async context =>
