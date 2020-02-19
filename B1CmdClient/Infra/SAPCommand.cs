@@ -26,17 +26,18 @@ namespace B1CmdClient.Infra
                     var parameters = DictionaryCommands.Instance.GetParameter(textCommand);
                     var cardCode = new Reposittory().ExistsBusinessPartner(parameters);
                     if (string.IsNullOrEmpty(cardCode))
-                        return;
+                        SAPConnection.Application.ActivateMenuItem("2561"); ;
                     new BusinessPartnerCommand().OpenFormBusinessPartnerDataByCardCode(cardCode);
 
                     break;
                 case AllCommands.ShowItemData:
                     var itemParameters = DictionaryCommands.Instance.GetParameter(textCommand);
                     var itemCode = new Reposittory().ExistsItem(itemParameters);
-                    if (string.IsNullOrEmpty(itemCode))
-                        return;
 
-                    new ItemCommand().OpenFormItemByItemCode(itemCode);
+                    if (string.IsNullOrEmpty(itemCode))
+                        SAPConnection.Application.ActivateMenuItem("3073");
+                    else
+                        new ItemCommand().OpenFormItemByItemCode(itemCode);
 
                     break;
                 case AllCommands.ShowStockItem:

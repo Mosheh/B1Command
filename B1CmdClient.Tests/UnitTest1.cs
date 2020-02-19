@@ -20,11 +20,47 @@ namespace B1CmdClient.Tests
         }
 
         [TestMethod]
+        public void ItemFormCommand()
+        {
+            Start.Init();
+
+            string commandText = "item";
+
+            ISAPCommand sapCommand = new SAPCommand();
+
+            sapCommand.Send(commandText);
+        }
+
+        [TestMethod]
         public void PartnerDataCommand()
         {
             Start.Init();
 
             string commandText = "dados do cliente advogados";
+
+            ISAPCommand sapCommand = new SAPCommand();
+
+            sapCommand.Send(commandText);
+        }
+
+        [TestMethod]
+        public void PartnerFormCommand()
+        {
+            Start.Init();
+
+            string commandText = "cliente";
+
+            ISAPCommand sapCommand = new SAPCommand();
+
+            sapCommand.Send(commandText);
+        }
+
+        [TestMethod]
+        public void PartnerDataCommand2()
+        {
+            Start.Init();
+
+            string commandText = "cliente moisés";
 
             ISAPCommand sapCommand = new SAPCommand();
 
