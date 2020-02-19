@@ -1,4 +1,5 @@
 ﻿using B1CmdClient.Data;
+using B1CmdClient.Infra;
 using B1CmdServer;
 using Grpc.Net.Client;
 using System;
@@ -32,6 +33,8 @@ namespace B1CmdClient
                     {
                         var response = chat.ResponseStream.Current;
                         Console.WriteLine($"{response.UserId}-{response.UserName}: {response.Command }");
+                        if (response.Command.Contains("Item"))
+                            new ItemCommand().OpenFormItemByItemCode("00147");
                     }
                 });
 
